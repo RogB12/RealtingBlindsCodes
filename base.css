@@ -166,7 +166,7 @@ section {
     }
 }
 
-/* Mobile Navigation */
+/* Mobile Navigation - Basic styles only, detailed styles in styles.css */
 @media (max-width: 767px) {
     .main-header {
         justify-content: space-between;
@@ -177,7 +177,7 @@ section {
     }
     
     .nav-list {
-        display: none;
+        display: flex;
         position: fixed;
         top: 60px;
         left: 0;
@@ -188,8 +188,8 @@ section {
         gap: 1rem;
         box-shadow: var(--shadow-md);
         z-index: 999;
-        max-height: 50vh; /* Limit height to 50% of viewport */
-        overflow-y: auto; /* Add scroll if needed */
+        max-height: 50vh;
+        overflow-y: auto;
     }
 
     .nav-list[data-visible="true"] {

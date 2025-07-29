@@ -2,16 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>shades  | Premium Custom Window Coverings in Caledon & Brampton</title>
-    <meta name="description" content="shades is your trusted window covering specialist in Caledon, Brampton, Mississauga, Vaughan, and surrounding areas. We offer custom shades, shades, shutters, and drapery solutions with professional installation and free consultations.">
-    <meta name="keywords" content="custom shades, window coverings, window treatments, shades, shutters, Caledon shades, Brampton window coverings, Mississauga shutters, custom window treatments, motorized shades, smart window coverings, energy efficient shades">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="shades ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shades | Premium Custom Window Coverings in Caledon & Brampton</title>
+    <meta name="description" content="shades is your trusted window covering specialist in Caledon, Brampton, Mississauga, Vaughan, and surrounding areas. We offer custom shades, blinds, shutters, and drapery solutions with professional installation and free consultations.">
+    <meta name="keywords" content="custom shades, window coverings, window treatments, blinds, shutters, Caledon shades, Brampton window coverings, Mississauga shutters, custom window treatments, motorized shades, smart window coverings, energy efficient shades">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="shades">
     <meta name="copyright" content="shades 2025">
     <meta name="language" content="English">
     <meta name="designer" content="shades Design Team">
     <meta name="coverage" content="Caledon, Brampton, Mississauga, Vaughan, Georgetown, Bolton, Milton, Erin, Oakville, Orangeville, Etobicoke, Toronto and surrounding areas">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.shades.ca/">
+    <meta property="og:title" content="shades | Premium Custom Window Coverings">
+    <meta property="og:description" content="Custom window coverings specialist in Caledon, Brampton, and surrounding areas. Professional installation and free consultations.">
+    <meta property="og:image" content="https://www.shades.ca/images/shades-logo.png">
+    <meta property="og:site_name" content="shades">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.shades.ca/">
+    <meta property="twitter:title" content="shades | Premium Custom Window Coverings">
+    <meta property="twitter:description" content="Custom window coverings specialist in Caledon, Brampton, and surrounding areas. Professional installation and free consultations.">
+    <meta property="twitter:image" content="https://www.shades.ca/images/shades-logo.png">
     
     <!-- Cache Control -->
     <meta http-equiv="Cache-Control" content="max-age=31536000, public">
@@ -24,10 +40,14 @@
     <link rel="preconnect" href="https://img1.wsimg.com">
     <link rel="preconnect" href="https://csp.secureserver.net">
     
-    <!-- Preload critical resources with proper attributes -->
+    <!-- DNS Prefetch for performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    
+    <!-- Preload critical resources -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-    <link rel="preload" href="/script.js" as="script" type="text/javascript">
+    <link rel="preload" href="script.js" as="script">
     
     <!-- Fallback for browsers that don't support the preload pattern -->
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"></noscript>
@@ -59,16 +79,159 @@
             height: 60px;
         }
         
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+        
+        .nav-list a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-list a:hover {
+            color: #3498db;
+        }
+        
         /* Mobile Navigation */
         .mobile-nav-toggle {
             display: none;
             background: none;
             border: none;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            cursor: pointer;
+            padding: 0.5rem;
         }
         
         @media (max-width: 768px) {
             .mobile-nav-toggle {
                 display: block;
+            }
+            
+            .nav-list {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: #fff;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+            
+            .nav-list[data-visible="true"] {
+                transform: translateX(0);
+            }
+            
+            .nav-list li {
+                margin: 1rem 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-list li a {
+                display: block;
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+                font-weight: 500;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .nav-list li:last-child a {
+                border-bottom: none;
+            }
+            
+            body.menu-open {
+                overflow: hidden;
+            }
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0 6rem;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+        
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 3rem 0 4rem;
+            }
+            
+            .hero .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-description {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -91,45 +254,53 @@
     </script>
     
     <!-- Base CSS -->
-    <link rel="stylesheet" href="/base.css" as="style" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="base.css" media="print" onload="this.media='all'">
     
     <!-- Page-specific styles -->
-    <link rel="stylesheet" href="/styles.css" as="style" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     
     <!-- Schema Markup -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "shades ",
+      "name": "shades",
       "image": "https://www.shades.ca/images/shades-logo.png",
+      "url": "https://www.shades.ca",
+      "telephone": "+1234567890",
+      "email": "shades@gmail.com",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "123 Farm BLVD",
         "addressLocality": "New York",
         "addressRegion": "NY",
-        "postalCode": "123 45s",
+        "postalCode": "12345",
         "addressCountry": "USA"
       },
-      "telephone": "+1234567890",
-      "email": "shades@gmail.com"
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "43.6532",
+        "longitude": "-79.3832"
+      },
+      "openingHours": "Mo-Fr 09:00-17:00",
+      "priceRange": "$$",
+      "description": "Custom window coverings specialist in Caledon, Brampton, and surrounding areas",
+      "sameAs": [
+        "https://www.facebook.com/shades",
+        "https://www.instagram.com/shades"
+      ]
     }
     </script>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon.png" width="32" height="32">
-    </style>
-
+    
     <!-- Loading indicator -->
     <style>
         .loading { opacity: 0; transition: opacity 0.3s ease; }
         .loaded { opacity: 1; }
     </style>
-    
-    <!-- Core Styles -->
-    <link rel="stylesheet" href="base.css">
-    <link rel="stylesheet" href="styles.css">
     
     <!-- Initialize components -->
     <script>
@@ -147,6 +318,7 @@
     </script>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="main-header">
         <div class="container">
             <a href="/" class="logo">shades </a>
@@ -166,7 +338,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content">
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
@@ -290,27 +462,7 @@
         </div>
     </footer>
 
-    <!-- Load non-critical CSS asynchronously -->
-    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="styles.css"></noscript>
-    
-    <!-- Load non-critical resources with defer -->
-    <script>
-        // Load Animate.css asynchronously
-        function loadCSS(href) {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = href;
-            document.head.appendChild(link);
-        }
-        
-        // Load after page load
-        window.addEventListener('load', function() {
-            loadCSS('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
-        });
-    </script>
-    
     <!-- Load JavaScript after DOM is ready -->
-    <script src="/script.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

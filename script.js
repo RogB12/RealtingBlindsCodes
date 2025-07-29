@@ -2,6 +2,8 @@
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded, initializing components...');
+    
     // Mark fonts as loaded
     document.documentElement.classList.remove('font-loading');
     document.documentElement.classList.add('font-loaded');
@@ -13,12 +15,19 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollAnimations();
     initImageOptimization();
     initScrollToTop();
+    initProductFiltering();
+    initFontLoading();
     
     // Initialize WOW.js if available
     if (typeof WOW !== 'undefined') {
         new WOW().init();
     }
+    
+    console.log('Page initialization complete');
 });
+
+// Start loading non-critical resources after initial load
+window.addEventListener('load', loadNonCriticalResources, { once: true });
 
 // Lazy load images and iframes
 function initLazyLoading() {
@@ -83,21 +92,26 @@ function initLazyLoading() {
 function initMobileMenu() {
     console.log('Initializing mobile menu...');
     const menuToggle = document.querySelector('.mobile-nav-toggle');
-    const mainNav = document.querySelector('.main-nav');
     const primaryNav = document.querySelector('.nav-list');
     
-    console.log('Menu elements:', { menuToggle, mainNav, primaryNav });
+    console.log('Menu elements:', { menuToggle, primaryNav });
     
-    if (!menuToggle || !mainNav || !primaryNav) {
+    if (!menuToggle || !primaryNav) {
         console.error('Required menu elements not found');
         return;
     }
     
-    // Toggle menu - using click event with proper passive handling
+    // Ensure initial state
+    primaryNav.setAttribute('data-visible', 'false');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    
+    // Toggle menu - using click event with proper handling
     menuToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
         console.log('Menu toggle clicked');
-        // Remove preventDefault since we're not handling any default behavior to prevent
-        const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
         console.log('Current state - isExpanded:', isExpanded);
         
         // Toggle the expanded state
@@ -106,32 +120,48 @@ function initMobileMenu() {
         
         // Toggle menu visibility
         if (newState) {
-            mainNav.classList.add('active');
             primaryNav.setAttribute('data-visible', 'true');
             document.body.classList.add('menu-open');
         } else {
-            mainNav.classList.remove('active');
             primaryNav.setAttribute('data-visible', 'false');
             document.body.classList.remove('menu-open');
         }
         
         console.log('New state - isExpanded:', newState);
-        console.log('mainNav classes:', mainNav.className);
         console.log('primaryNav data-visible:', primaryNav.getAttribute('data-visible'));
     });
     
     // Close menu when clicking on a nav link
-    const navLinks = mainNav.querySelectorAll('a');
+    const navLinks = primaryNav.querySelectorAll('a');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                console.log('Nav link clicked, closing menu');
+            console.log('Nav link clicked, closing menu');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            primaryNav.setAttribute('data-visible', 'false');
+            document.body.classList.remove('menu-open');
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !primaryNav.contains(e.target)) {
+            if (primaryNav.getAttribute('data-visible') === 'true') {
+                console.log('Click outside menu, closing');
                 menuToggle.setAttribute('aria-expanded', 'false');
-                mainNav.classList.remove('active');
                 primaryNav.setAttribute('data-visible', 'false');
                 document.body.classList.remove('menu-open');
             }
-        });
+        }
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && primaryNav.getAttribute('data-visible') === 'true') {
+            console.log('Escape key pressed, closing menu');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            primaryNav.setAttribute('data-visible', 'false');
+            document.body.classList.remove('menu-open');
+        }
     });
     
     console.log('Mobile menu initialization complete');
@@ -248,32 +278,6 @@ function initScrollToTop() {
     window.addEventListener('scroll', toggleScrollButton);
 }
 
-// Smooth Scrolling
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                window.scrollTo({
-                    top: target.offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-}
-
-// Product Filtering
-function applyFilter(filter) {
-    const cards = document.querySelectorAll('.product-card');
-    cards.forEach(card => {
-        const category = card.getAttribute('data-category');
-        const isVisible = filter === 'all' || category === filter;
-        card.style.display = isVisible ? 'block' : 'none';
-    });
-}
-
 // Initialize product filtering
 function initProductFiltering() {
     const filterButtons = document.querySelectorAll('.filter-button');
@@ -346,75 +350,3 @@ function loadNonCriticalJS() {
     // Add any non-critical JS here
     console.log('Loading non-critical JavaScript...');
 }
-
-// Initialize all page components
-function initPage() {
-    console.log('Initializing page components...');
-    
-    // Initialize mobile menu if elements exist
-    if (document.querySelector('.mobile-nav-toggle') && 
-        document.querySelector('.main-nav') && 
-        document.querySelector('.nav-list')) {
-        initMobileMenu();
-    }
-    
-    // Initialize other common components
-    if (typeof initScrollToTop === 'function') initScrollToTop();
-    if (typeof initImageOptimization === 'function') initImageOptimization();
-    if (typeof initLazyLoading === 'function') initLazyLoading();
-    if (typeof initProductFiltering === 'function') initProductFiltering();
-    if (typeof initFontLoading === 'function') initFontLoading();
-    
-    // Load non-critical resources
-    if (typeof loadNonCriticalResources === 'function') loadNonCriticalResources();
-    
-    console.log('Page initialization complete');
-}
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded, initializing components...');
-    initPage();
-});
-
-// Start loading non-critical resources after initial load
-window.addEventListener('load', loadNonCriticalResources, { once: true });
-
-// Optimize passive event listeners
-(function() {
-    // Test if passive is supported
-    let passiveSupported = false;
-    
-    try {
-        const options = {
-            get passive() {
-                passiveSupported = true;
-                return false;
-            }
-        };
-        
-        window.addEventListener('test', null, options);
-        window.removeEventListener('test', null, options);
-    } catch (err) {
-        passiveSupported = false;
-    }
-    
-    // Apply passive event listeners to scroll and touch events
-    const events = ['touchstart', 'touchmove', 'wheel', 'mousewheel', 'scroll'];
-    events.forEach(event => {
-        window.addEventListener(event, () => {}, 
-            passiveSupported ? { passive: true } : false
-        );
-    });
-})();
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded, initializing components...');
-    initMobileMenu();
-    
-    // Also log when the document is clicked to check event propagation
-    document.addEventListener('click', function(e) {
-        console.log('Document clicked:', e.target);
-    });
-});
