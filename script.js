@@ -161,7 +161,7 @@ function initSmoothScrolling() {
                     window.scrollTo(0, targetElement.offsetTop - 80);
                 }
             }
-        }, { passive: true });
+        });
     });
 }
 
@@ -248,21 +248,9 @@ function initScrollToTop() {
     window.addEventListener('scroll', toggleScrollButton);
 }
 
-// Smooth Scrolling
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                window.scrollTo({
-                    top: target.offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-}
+// Note: This function was duplicate of initSmoothScrolling() and has been removed
+// to prevent conflicts. Use initSmoothScrolling() instead which includes
+// proper target validation and header offset.
 
 // Product Filtering
 function applyFilter(filter) {
@@ -375,6 +363,11 @@ function initPage() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded, initializing components...');
     initPage();
+    
+    // Also log when the document is clicked to check event propagation
+    document.addEventListener('click', function(e) {
+        console.log('Document clicked:', e.target);
+    });
 });
 
 // Start loading non-critical resources after initial load
@@ -407,14 +400,3 @@ window.addEventListener('load', loadNonCriticalResources, { once: true });
         );
     });
 })();
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded, initializing components...');
-    initMobileMenu();
-    
-    // Also log when the document is clicked to check event propagation
-    document.addEventListener('click', function(e) {
-        console.log('Document clicked:', e.target);
-    });
-});

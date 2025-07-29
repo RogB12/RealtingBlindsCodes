@@ -244,12 +244,29 @@
             const answer = document.getElementById('captcha_answer').value;
             const question = document.getElementById('captcha-question').textContent;
             
-            try {
-                const result = eval(question);
-                return answer === result.toString();
-            } catch (e) {
-                return false;
+            // Parse the math question safely without using eval()
+            const parts = question.trim().split(' ');
+            if (parts.length !== 3) return false;
+            
+            const num1 = parseInt(parts[0], 10);
+            const operator = parts[1];
+            const num2 = parseInt(parts[2], 10);
+            
+            if (isNaN(num1) || isNaN(num2)) return false;
+            
+            let result;
+            switch (operator) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                default:
+                    return false;
             }
+            
+            return answer === result.toString();
         }
 
         function submitForm() {
