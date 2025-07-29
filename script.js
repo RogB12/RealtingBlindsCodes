@@ -1,7 +1,13 @@
 // Main JavaScript - Optimized for Performance
 
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
+// Global initialization flag to prevent duplicate initialization
+let isInitialized = false;
+
+// Main initialization function
+function initializeApp() {
+    if (isInitialized) return;
+    isInitialized = true;
+    
     // Mark fonts as loaded
     document.documentElement.classList.remove('font-loading');
     document.documentElement.classList.add('font-loaded');
@@ -18,7 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof WOW !== 'undefined') {
         new WOW().init();
     }
-});
+    
+    console.log('App initialization complete');
+}
 
 // Lazy load images and iframes
 function initLazyLoading() {
@@ -248,21 +256,7 @@ function initScrollToTop() {
     window.addEventListener('scroll', toggleScrollButton);
 }
 
-// Smooth Scrolling
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                window.scrollTo({
-                    top: target.offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-}
+
 
 // Product Filtering
 function applyFilter(filter) {
@@ -371,15 +365,6 @@ function initPage() {
     console.log('Page initialization complete');
 }
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded, initializing components...');
-    initPage();
-});
-
-// Start loading non-critical resources after initial load
-window.addEventListener('load', loadNonCriticalResources, { once: true });
-
 // Optimize passive event listeners
 (function() {
     // Test if passive is supported
@@ -408,13 +393,15 @@ window.addEventListener('load', loadNonCriticalResources, { once: true });
     });
 })();
 
-// Initialize when DOM is loaded
+// Single DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded, initializing components...');
-    initMobileMenu();
-    
-    // Also log when the document is clicked to check event propagation
-    document.addEventListener('click', function(e) {
-        console.log('Document clicked:', e.target);
-    });
+    initializeApp();
 });
+
+// Start loading non-critical resources after initial load
+window.addEventListener('load', function() {
+    if (typeof loadNonCriticalResources === 'function') {
+        loadNonCriticalResources();
+    }
+}, { once: true });

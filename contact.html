@@ -245,7 +245,28 @@
             const question = document.getElementById('captcha-question').textContent;
             
             try {
-                const result = eval(question);
+                // Safe mathematical expression evaluation without eval()
+                const parts = question.trim().split(' ');
+                if (parts.length !== 3) return false;
+                
+                const num1 = parseInt(parts[0]);
+                const operation = parts[1];
+                const num2 = parseInt(parts[2]);
+                
+                if (isNaN(num1) || isNaN(num2)) return false;
+                
+                let result;
+                switch (operation) {
+                    case '+':
+                        result = num1 + num2;
+                        break;
+                    case '-':
+                        result = num1 - num2;
+                        break;
+                    default:
+                        return false;
+                }
+                
                 return answer === result.toString();
             } catch (e) {
                 return false;
@@ -257,20 +278,46 @@
             if (form) {
                 // Add loading state
                 const submitBtn = form.querySelector('button[type="submit"]');
+                const messageDiv = document.getElementById('form-message');
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Sending...';
+                messageDiv.textContent = '';
+                messageDiv.className = 'form-message';
 
-                // Simulate form submission
-                setTimeout(() => {
-                    // Reset form
-                    form.reset();
-                    generateCaptcha();
+                // Get form data
+                const formData = new FormData(form);
+                
+                // Add captcha question to form data
+                const question = document.getElementById('captcha-question').textContent;
+                formData.set('captcha_question', question);
+
+                // Submit form via AJAX
+                fetch('send-email.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Reset form
+                        form.reset();
+                        generateCaptcha();
+                        messageDiv.textContent = data.message;
+                        messageDiv.className = 'form-message success';
+                    } else {
+                        messageDiv.textContent = data.message;
+                        messageDiv.className = 'form-message error';
+                    }
+                })
+                .catch(error => {
+                    messageDiv.textContent = 'An error occurred. Please try again.';
+                    messageDiv.className = 'form-message error';
+                    console.error('Form submission error:', error);
+                })
+                .finally(() => {
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Send Message';
-
-                    // Show success message
-                    alert('Thank you for your message! We will get back to you soon.');
-                }, 2000);
+                });
             }
         }
     </script>
