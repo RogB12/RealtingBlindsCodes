@@ -6,17 +6,23 @@ document.addEventListener('DOMContentLoaded', function() {
     document.documentElement.classList.remove('font-loading');
     document.documentElement.classList.add('font-loaded');
 
-    // Initialize components
-    initLazyLoading();
-    initMobileMenu();
-    initSmoothScrolling();
-    initScrollAnimations();
-    initImageOptimization();
-    initScrollToTop();
-    
-    // Initialize WOW.js if available
-    if (typeof WOW !== 'undefined') {
-        new WOW().init();
+    // Initialize components with error handling
+    try {
+        initLazyLoading();
+        initMobileMenu();
+        initSmoothScrolling();
+        initScrollAnimations();
+        initImageOptimization();
+        initScrollToTop();
+        
+        // Initialize WOW.js if available
+        if (typeof WOW !== 'undefined') {
+            new WOW().init();
+        }
+        
+        console.log('All components initialized successfully');
+    } catch (error) {
+        console.error('Error initializing components:', error);
     }
 });
 
@@ -84,7 +90,7 @@ function initMobileMenu() {
     console.log('Initializing mobile menu...');
     const menuToggle = document.querySelector('.mobile-nav-toggle');
     const mainNav = document.querySelector('.main-nav');
-    const primaryNav = document.querySelector('.nav-list');
+    const primaryNav = document.querySelector('#primary-navigation');
     
     console.log('Menu elements:', { menuToggle, mainNav, primaryNav });
     
@@ -371,11 +377,7 @@ function initPage() {
     console.log('Page initialization complete');
 }
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded, initializing components...');
-    initPage();
-});
+// Removed duplicate - initialization already handled above
 
 // Start loading non-critical resources after initial load
 window.addEventListener('load', loadNonCriticalResources, { once: true });
@@ -408,13 +410,9 @@ window.addEventListener('load', loadNonCriticalResources, { once: true });
     });
 })();
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded, initializing components...');
-    initMobileMenu();
-    
-    // Also log when the document is clicked to check event propagation
-    document.addEventListener('click', function(e) {
-        console.log('Document clicked:', e.target);
-    });
+// Additional debugging for mobile menu
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.mobile-nav-toggle')) {
+        console.log('Mobile nav toggle clicked via event delegation');
+    }
 });

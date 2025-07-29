@@ -3,12 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>shades  | Premium Custom Window Coverings in Caledon & Brampton</title>
-    <meta name="description" content="shades is your trusted window covering specialist in Caledon, Brampton, Mississauga, Vaughan, and surrounding areas. We offer custom shades, shades, shutters, and drapery solutions with professional installation and free consultations.">
-    <meta name="keywords" content="custom shades, window coverings, window treatments, shades, shutters, Caledon shades, Brampton window coverings, Mississauga shutters, custom window treatments, motorized shades, smart window coverings, energy efficient shades">
+    <title>Premium Custom Window Coverings in Caledon & Brampton | ShadesHub</title>
+    <meta name="description" content="Transform your home with premium custom window coverings from ShadesHub. Serving Caledon, Brampton, Mississauga & Vaughan with expert installation of blinds, shades, shutters & drapes. Free consultation!">
+    <meta name="keywords" content="custom window coverings, blinds, shades, shutters, window treatments, Caledon, Brampton, Mississauga, Vaughan, motorized blinds, smart window coverings, energy efficient, professional installation">
     <meta name="robots" content="index, follow">
-    <meta name="author" content="shades ">
-    <meta name="copyright" content="shades 2025">
+    <meta name="author" content="ShadesHub">
+    <meta name="copyright" content="ShadesHub 2025">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.shadeshub.ca/">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Premium Custom Window Coverings in Caledon & Brampton | ShadesHub">
+    <meta property="og:description" content="Transform your home with premium custom window coverings from ShadesHub. Expert installation of blinds, shades, shutters & drapes.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.shadeshub.ca/">
+    <meta property="og:image" content="https://www.shadeshub.ca/images/hero-image.webp">
+    <meta property="og:site_name" content="ShadesHub">
+    <meta property="og:locale" content="en_CA">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Premium Custom Window Coverings in Caledon & Brampton | ShadesHub">
+    <meta name="twitter:description" content="Transform your home with premium custom window coverings from ShadesHub. Expert installation of blinds, shades, shutters & drapes.">
+    <meta name="twitter:image" content="https://www.shadeshub.ca/images/hero-image.webp">
     <meta name="language" content="English">
     <meta name="designer" content="shades Design Team">
     <meta name="coverage" content="Caledon, Brampton, Mississauga, Vaughan, Georgetown, Bolton, Milton, Erin, Oakville, Orangeville, Etobicoke, Toronto and surrounding areas">
@@ -73,28 +91,20 @@
         }
     </style>
     
-    <!-- Load Font Awesome asynchronously -->
-    <script>
-        // Load Font Awesome and Animate.css asynchronously
-        function loadCSS(href) {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = href;
-            document.head.appendChild(link);
-        }
-        
-        // Load after page load
-        window.addEventListener('load', function() {
-            loadCSS('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
-            loadCSS('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
-        });
-    </script>
+    <!-- Load Font Awesome with preload for performance -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="/base.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     
     <!-- Base CSS -->
-    <link rel="stylesheet" href="/base.css" as="style" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/base.css">
     
     <!-- Page-specific styles -->
-    <link rel="stylesheet" href="/styles.css" as="style" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/styles.css">
     
     
     <!-- Schema Markup -->
@@ -102,34 +112,76 @@
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "shades ",
-      "image": "https://www.shades.ca/images/shades-logo.png",
+      "name": "ShadesHub",
+      "description": "Premium custom window coverings specialist serving Caledon, Brampton, Mississauga and surrounding areas",
+      "url": "https://www.shadeshub.ca",
+      "image": "https://www.shadeshub.ca/images/logo.webp",
+      "logo": "https://www.shadeshub.ca/images/logo.webp",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "123 Farm BLVD",
-        "addressLocality": "New York",
-        "addressRegion": "NY",
-        "postalCode": "123 45s",
-        "addressCountry": "USA"
+        "addressLocality": "Caledon",
+        "addressRegion": "ON",
+        "addressCountry": "CA"
       },
-      "telephone": "+1234567890",
-      "email": "shades@gmail.com"
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Caledon"
+        },
+        {
+          "@type": "City", 
+          "name": "Brampton"
+        },
+        {
+          "@type": "City",
+          "name": "Mississauga"
+        },
+        {
+          "@type": "City",
+          "name": "Vaughan"
+        }
+      ],
+      "serviceType": "Window Coverings",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Window Covering Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Custom Blinds Installation"
+            }
+          },
+          {
+            "@type": "Offer", 
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Custom Shades Installation"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service", 
+              "name": "Custom Shutters Installation"
+            }
+          }
+        ]
+      }
     }
     </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon.png" width="32" height="32">
-    </style>
 
     <!-- Loading indicator -->
     <style>
         .loading { opacity: 0; transition: opacity 0.3s ease; }
         .loaded { opacity: 1; }
+        /* Optimize CLS (Cumulative Layout Shift) */
+        img { aspect-ratio: attr(width) / attr(height); }
     </style>
-    
-    <!-- Core Styles -->
-    <link rel="stylesheet" href="base.css">
-    <link rel="stylesheet" href="styles.css">
     
     <!-- Initialize components -->
     <script>
@@ -149,16 +201,17 @@
 <body>
     <header class="main-header">
         <div class="container">
-            <a href="/" class="logo">shades </a>
+            <a href="/" class="logo">ShadesHub</a>
             <nav class="main-nav">
                 <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
                     <span class="visually-hidden">Menu</span>
                     <i class="fas fa-bars"></i>
                 </button>
-                <ul id="primary-navigation" class="nav-list">
+                <ul id="primary-navigation" data-visible="false" class="nav-list">
                     <li><a href="/index.html">Home</a></li>
                     <li><a href="/products.html">Products</a></li>
                     <li><a href="/services.html">Services</a></li>
+                    <li><a href="/about.html">About Us</a></li>
                     <li><a href="/contact.html">Contact</a></li>
                     <li><a href="/become-dealer.html">Become Dealer</a></li>
                 </ul>
