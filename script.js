@@ -1,209 +1,268 @@
-// Main JavaScript - Optimized for Performance
+/* ==========================================================================
+   SHADES WEBSITE - MAIN JAVASCRIPT FILE
+   ==========================================================================
+   
+   Table of Contents:
+   1. Global Variables & Configuration
+   2. Utility Functions
+   3. Mobile Navigation System
+   4. Performance Optimizations
+   5. User Experience Enhancements
+   6. Form Handling
+   7. Animation & Effects
+   8. Initialization & Event Listeners
+   ========================================================================== */
 
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded, initializing components...');
-    
-    // Mark fonts as loaded
-    document.documentElement.classList.remove('font-loading');
-    document.documentElement.classList.add('font-loaded');
+/* ==========================================================================
+   1. GLOBAL VARIABLES & CONFIGURATION
+   ========================================================================== */
+// Performance configuration
+const PERFORMANCE_CONFIG = {
+    SCROLL_THRESHOLD: 300,
+    LAZY_LOADING_THRESHOLD: 100,
+    ANIMATION_DURATION: 300,
+    DEBOUNCE_DELAY: 250
+};
 
-    // Initialize components
-    initLazyLoading();
-    initMobileMenu();
-    initSmoothScrolling();
-    initScrollAnimations();
-    initImageOptimization();
-    initScrollToTop();
-    initProductFiltering();
-    initFontLoading();
-    
-    // Initialize WOW.js if available
-    if (typeof WOW !== 'undefined') {
-        new WOW().init();
-    }
-    
-    console.log('Page initialization complete');
-});
+// Mobile breakpoint
+const MOBILE_BREAKPOINT = 768;
 
-// Start loading non-critical resources after initial load
-window.addEventListener('load', loadNonCriticalResources, { once: true });
+// DOM elements cache
+let cachedElements = {};
 
-// Lazy load images and iframes
-function initLazyLoading() {
-    // First, process all images with loading="lazy"
-    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-    
-    // If native lazy loading is supported
-    if ('loading' in HTMLImageElement.prototype) {
-        lazyImages.forEach(img => {
-            // If image has data-src, use it as src
-            if (img.dataset.src) {
-                img.src = img.dataset.src;
-            }
-            // Handle srcset if present
-            if (img.dataset.srcset) {
-                img.srcset = img.dataset.srcset;
-            }
-        });
-    } 
-    // Fallback for browsers without native lazy loading
-    else if ('IntersectionObserver' in window) {
-        const lazyMedia = document.querySelectorAll('[data-src], [data-srcset]');
-        const lazyMediaObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const media = entry.target;
-                    if (media.tagName === 'IMG' || media.tagName === 'SOURCE') {
-                        if (media.dataset.src) {
-                            media.src = media.dataset.src;
-                        }
-                        if (media.dataset.srcset) {
-                            media.srcset = media.dataset.srcset;
-                        }
-                        media.removeAttribute('data-src');
-                        media.removeAttribute('data-srcset');
-                    }
-                    observer.unobserve(media);
-                }
-            });
-        });
+/* ==========================================================================
+   2. UTILITY FUNCTIONS
+   ========================================================================== */
 
-        lazyMedia.forEach(media => {
-            lazyMediaObserver.observe(media);
-        });
-    }
-    // Fallback for older browsers without IntersectionObserver
-    else {
-        lazyImages.forEach(img => {
-            if (img.dataset.src) {
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-            }
-            if (img.dataset.srcset) {
-                img.srcset = img.dataset.srcset;
-                img.removeAttribute('data-srcset');
-            }
-        });
-    }
+/**
+ * Debounce function to limit the rate of function calls
+ * @param {Function} func - Function to debounce
+ * @param {number} wait - Wait time in milliseconds
+ * @returns {Function} Debounced function
+ */
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
-// Mobile menu functionality
+/**
+ * Throttle function to limit function execution frequency
+ * @param {Function} func - Function to throttle
+ * @param {number} limit - Time limit in milliseconds
+ * @returns {Function} Throttled function
+ */
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+/**
+ * Check if element is in viewport
+ * @param {Element} element - Element to check
+ * @returns {boolean} True if element is in viewport
+ */
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+/**
+ * Get cached DOM element or query and cache it
+ * @param {string} selector - CSS selector
+ * @returns {Element|null} DOM element
+ */
+function getElement(selector) {
+    if (!cachedElements[selector]) {
+        cachedElements[selector] = document.querySelector(selector);
+    }
+    return cachedElements[selector];
+}
+
+/**
+ * Get all cached DOM elements or query and cache them
+ * @param {string} selector - CSS selector
+ * @returns {NodeList} DOM elements
+ */
+function getElements(selector) {
+    if (!cachedElements[selector]) {
+        cachedElements[selector] = document.querySelectorAll(selector);
+    }
+    return cachedElements[selector];
+}
+
+/* ==========================================================================
+   3. MOBILE NAVIGATION SYSTEM
+   ========================================================================== */
+
+/**
+ * Initialize mobile navigation functionality
+ * Handles hamburger menu toggle, accessibility, and touch interactions
+ */
 function initMobileMenu() {
-    console.log('Initializing mobile menu...');
-    const menuToggle = document.querySelector('.mobile-nav-toggle');
-    const primaryNav = document.querySelector('.nav-list');
-    
-    console.log('Menu elements:', { menuToggle, primaryNav });
+    const menuToggle = getElement('.mobile-nav-toggle');
+    const primaryNav = getElement('#primary-navigation');
     
     if (!menuToggle || !primaryNav) {
-        console.error('Required menu elements not found');
+        console.warn('Mobile navigation elements not found');
         return;
     }
-    
-    // Ensure initial state
+
+    // Set initial state
     primaryNav.setAttribute('data-visible', 'false');
     menuToggle.setAttribute('aria-expanded', 'false');
-    
-    // Toggle menu - using click event with proper handling
-    menuToggle.addEventListener('click', function(e) {
+
+    /**
+     * Toggle mobile menu visibility
+     * @param {Event} e - Click event
+     */
+    function toggleMobileMenu(e) {
         e.preventDefault();
         e.stopPropagation();
         
-        console.log('Menu toggle clicked');
-        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-        console.log('Current state - isExpanded:', isExpanded);
+        const isVisible = primaryNav.getAttribute('data-visible') === 'true';
+        const newState = !isVisible;
         
-        // Toggle the expanded state
-        const newState = !isExpanded;
-        this.setAttribute('aria-expanded', String(newState));
+        // Update navigation visibility
+        primaryNav.setAttribute('data-visible', String(newState));
+        menuToggle.setAttribute('aria-expanded', String(newState));
         
-        // Toggle menu visibility
+        // Toggle body scroll lock
         if (newState) {
-            primaryNav.setAttribute('data-visible', 'true');
             document.body.classList.add('menu-open');
         } else {
-            primaryNav.setAttribute('data-visible', 'false');
             document.body.classList.remove('menu-open');
         }
-        
-        console.log('New state - isExpanded:', newState);
-        console.log('primaryNav data-visible:', primaryNav.getAttribute('data-visible'));
-    });
-    
-    // Close menu when clicking on a nav link
+    }
+
+    // Event listeners
+    menuToggle.addEventListener('click', toggleMobileMenu);
+
+    // Close menu when clicking on navigation links
     const navLinks = primaryNav.querySelectorAll('a');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            console.log('Nav link clicked, closing menu');
-            menuToggle.setAttribute('aria-expanded', 'false');
             primaryNav.setAttribute('data-visible', 'false');
+            menuToggle.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('menu-open');
         });
     });
-    
+
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!menuToggle.contains(e.target) && !primaryNav.contains(e.target)) {
-            if (primaryNav.getAttribute('data-visible') === 'true') {
-                console.log('Click outside menu, closing');
-                menuToggle.setAttribute('aria-expanded', 'false');
-                primaryNav.setAttribute('data-visible', 'false');
-                document.body.classList.remove('menu-open');
-            }
-        }
-    });
-    
-    // Close menu on escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && primaryNav.getAttribute('data-visible') === 'true') {
-            console.log('Escape key pressed, closing menu');
-            menuToggle.setAttribute('aria-expanded', 'false');
             primaryNav.setAttribute('data-visible', 'false');
+            menuToggle.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('menu-open');
         }
     });
-    
-    console.log('Mobile menu initialization complete');
+
+    // Close menu on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            primaryNav.setAttribute('data-visible', 'false');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('menu-open');
+        }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', debounce(() => {
+        if (window.innerWidth > MOBILE_BREAKPOINT) {
+            primaryNav.setAttribute('data-visible', 'false');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('menu-open');
+        }
+    }, PERFORMANCE_CONFIG.DEBOUNCE_DELAY));
 }
 
-// Smooth scrolling for anchor links
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const targetId = this.getAttribute('href');
-            
-            // Skip empty or non-hash links
-            if (targetId === '#' || !document.querySelector(targetId)) return;
-            
-            e.preventDefault();
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                // Use smooth scroll if supported
-                if ('scrollBehavior' in document.documentElement.style) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80, // Account for fixed header
-                        behavior: 'smooth'
-                    });
-                } else {
-                    // Fallback for older browsers
-                    window.scrollTo(0, targetElement.offsetTop - 80);
-                }
+/* ==========================================================================
+   4. PERFORMANCE OPTIMIZATIONS
+   ========================================================================== */
+
+/**
+ * Initialize lazy loading for images
+ * Uses Intersection Observer API for better performance
+ */
+function initLazyLoading() {
+    const images = getElements('img[data-src]');
+    
+    if (!images.length) return;
+
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('loading');
+                img.classList.add('loaded');
+                observer.unobserve(img);
             }
-        }, { passive: true });
+        });
+    }, {
+        rootMargin: `${PERFORMANCE_CONFIG.LAZY_LOADING_THRESHOLD}px`
+    });
+
+    images.forEach(img => {
+        img.classList.add('loading');
+        imageObserver.observe(img);
     });
 }
 
-// Animate elements when they come into view
-function initScrollAnimations() {
-    if (!('IntersectionObserver' in window)) return;
+/**
+ * Initialize smooth scrolling for anchor links
+ */
+function initSmoothScrolling() {
+    const anchorLinks = getElements('a[href^="#"]');
     
-    const animateOnScroll = new IntersectionObserver((entries, observer) => {
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (href === '#') return;
+            
+            const target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}
+
+/**
+ * Initialize scroll animations using Intersection Observer
+ */
+function initScrollAnimations() {
+    const animatedElements = getElements('.animate-on-scroll');
+    
+    if (!animatedElements.length) return;
+
+    const animationObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                observer.unobserve(entry.target);
+                entry.target.classList.add('animated');
             }
         });
     }, {
@@ -211,142 +270,280 @@ function initScrollAnimations() {
         rootMargin: '0px 0px -50px 0px'
     });
 
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
-        animateOnScroll.observe(el);
+    animatedElements.forEach(element => {
+        animationObserver.observe(element);
     });
 }
 
-// Optimize images
+/**
+ * Initialize image optimization
+ * Handles responsive images and WebP support
+ */
 function initImageOptimization() {
-    console.log('Image optimization initialized');
-    
-    // Process all images
-    const images = document.querySelectorAll('img[src]');
+    const images = getElements('img[data-srcset]');
     
     images.forEach(img => {
-        // Ensure the image has loaded
-        if (!img.complete) {
-            img.addEventListener('load', function() {
-                this.classList.add('loaded');
-            });
-        } else {
-            img.classList.add('loaded');
-        }
+        // Check for WebP support
+        const webpSupported = document.createElement('canvas')
+            .toDataURL('image/webp')
+            .indexOf('data:image/webp') === 0;
         
-        // Add error handling
-        img.addEventListener('error', function() {
-            console.error('Failed to load image:', this.src);
-            this.style.visibility = 'hidden';
-        });
+        if (webpSupported && img.dataset.srcsetWebp) {
+            img.srcset = img.dataset.srcsetWebp;
+        } else if (img.dataset.srcset) {
+            img.srcset = img.dataset.srcset;
+        }
     });
 }
 
-// Scroll to top button
+/* ==========================================================================
+   5. USER EXPERIENCE ENHANCEMENTS
+   ========================================================================== */
+
+/**
+ * Initialize scroll-to-top button
+ */
 function initScrollToTop() {
-    // Check if scroll-to-top button already exists
-    let scrollToTopButton = document.querySelector('.scroll-to-top');
+    const scrollButton = getElement('.scroll-to-top');
     
-    // Only create the button if it doesn't exist
-    if (!scrollToTopButton) {
-        scrollToTopButton = document.createElement('button');
-        scrollToTopButton.textContent = '↑';
-        scrollToTopButton.classList.add('scroll-to-top');
-        document.body.appendChild(scrollToTopButton);
+    if (!scrollButton) return;
 
-        // Add click event listener
-        scrollToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-
-    // Toggle visibility based on scroll position
-    const toggleScrollButton = () => {
-        if (window.scrollY > 300) {
-            scrollToTopButton.style.display = 'block';
+    // Show/hide button based on scroll position
+    const toggleScrollButton = throttle(() => {
+        if (window.scrollY > PERFORMANCE_CONFIG.SCROLL_THRESHOLD) {
+            scrollButton.style.display = 'block';
         } else {
-            scrollToTopButton.style.display = 'none';
+            scrollButton.style.display = 'none';
         }
-    };
+    }, 100);
 
-    // Set initial state
-    toggleScrollButton();
-    
-    // Add scroll event listener
+    // Scroll to top functionality
+    scrollButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Listen for scroll events
     window.addEventListener('scroll', toggleScrollButton);
 }
 
-// Initialize product filtering
+/**
+ * Initialize product filtering system
+ */
 function initProductFiltering() {
-    const filterButtons = document.querySelectorAll('.filter-button');
-    const productCards = document.querySelectorAll('.product-card');
+    const filterButtons = getElements('.filter-button');
+    const productItems = getElements('.product-item');
+    
+    if (!filterButtons.length || !productItems.length) return;
 
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const filter = button.getAttribute('data-filter');
+            const filter = button.dataset.filter;
             
-            // Update active state of buttons
+            // Update active button state
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             
             // Filter products
-            productCards.forEach(card => {
-                if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                    card.style.display = 'block';
-                    // Add animation class
-                    card.classList.add('animate__animated', 'animate__fadeInUp');
+            productItems.forEach(item => {
+                const category = item.dataset.category;
+                if (filter === 'all' || category === filter) {
+                    item.style.display = 'block';
+                    item.classList.add('fade-in');
                 } else {
-                    card.style.display = 'none';
+                    item.style.display = 'none';
+                    item.classList.remove('fade-in');
                 }
             });
         });
     });
 }
 
-// Initialize font loading detection
+/**
+ * Initialize font loading optimization
+ */
 function initFontLoading() {
-    // Check if fonts are already loaded
-    if (document.fonts) {
-        document.fonts.ready.then(function() {
-            document.documentElement.classList.add('fonts-loaded');
+    // Add font loading class to body
+    document.body.classList.add('font-loading');
+    
+    // Check if fonts are loaded
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+            document.body.classList.remove('font-loading');
+            document.body.classList.add('font-loaded');
         });
     } else {
-        // Fallback for browsers that don't support the Font Loading API
-        setTimeout(function() {
-            document.documentElement.classList.add('fonts-loaded');
+        // Fallback for older browsers
+        setTimeout(() => {
+            document.body.classList.remove('font-loading');
+            document.body.classList.add('font-loaded');
         }, 1000);
     }
 }
 
-// Load non-critical resources when idle
+/* ==========================================================================
+   6. FORM HANDLING
+   ========================================================================== */
+
+/**
+ * Initialize contact form functionality
+ */
+function initContactForm() {
+    const contactForm = getElement('.contact-form');
+    
+    if (!contactForm) return;
+
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(contactForm);
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        
+        // Show loading state
+        submitButton.textContent = 'Sending...';
+        submitButton.disabled = true;
+        
+        try {
+            // Simulate form submission (replace with actual endpoint)
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Show success message
+            showFormMessage(contactForm, 'Thank you! Your message has been sent successfully.', 'success');
+            contactForm.reset();
+            
+        } catch (error) {
+            // Show error message
+            showFormMessage(contactForm, 'Sorry, there was an error sending your message. Please try again.', 'error');
+        } finally {
+            // Reset button state
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
+    });
+}
+
+/**
+ * Show form message (success/error)
+ * @param {Element} form - Form element
+ * @param {string} message - Message to display
+ * @param {string} type - Message type ('success' or 'error')
+ */
+function showFormMessage(form, message, type) {
+    // Remove existing messages
+    const existingMessage = form.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // Create new message
+    const messageElement = document.createElement('div');
+    messageElement.className = `form-message ${type}`;
+    messageElement.textContent = message;
+    
+    // Insert message
+    form.insertBefore(messageElement, form.firstChild);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        if (messageElement.parentNode) {
+            messageElement.remove();
+        }
+    }, 5000);
+}
+
+/* ==========================================================================
+   7. ANIMATION & EFFECTS
+   ========================================================================== */
+
+/**
+ * Load non-critical resources asynchronously
+ */
 function loadNonCriticalResources() {
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadNonCriticalCSS);
-        requestIdleCallback(loadNonCriticalJS);
-    } else {
-        // Fallback for browsers that don't support requestIdleCallback
-        setTimeout(loadNonCriticalCSS, 2000);
-        setTimeout(loadNonCriticalJS, 3000);
+    // Load Font Awesome if not already loaded
+    if (!document.querySelector('link[href*="font-awesome"]')) {
+        const fontAwesomeLink = document.createElement('link');
+        fontAwesomeLink.rel = 'stylesheet';
+        fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        document.head.appendChild(fontAwesomeLink);
+    }
+    
+    // Load Animate.css if not already loaded
+    if (!document.querySelector('link[href*="animate.css"]')) {
+        const animateCSSLink = document.createElement('link');
+        animateCSSLink.rel = 'stylesheet';
+        animateCSSLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+        document.head.appendChild(animateCSSLink);
     }
 }
 
-// Load non-critical CSS
-function loadNonCriticalCSS() {
-    // Preload fonts with font-display: swap
-    const fontLink = document.createElement('link');
-    fontLink.rel = 'preload';
-    fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap';
-    fontLink.as = 'style';
-    fontLink.onload = function() {
-        this.rel = 'stylesheet';
-    };
-    document.head.appendChild(fontLink);
+/**
+ * Initialize WOW.js for scroll animations (if available)
+ */
+function initWOWAnimations() {
+    if (typeof WOW !== 'undefined') {
+        new WOW({
+            boxClass: 'wow',
+            animateClass: 'animated',
+            offset: 0,
+            mobile: true,
+            live: true
+        }).init();
+    }
 }
 
-// Load non-critical JavaScript
-function loadNonCriticalJS() {
-    // Add any non-critical JS here
-    console.log('Loading non-critical JavaScript...');
+/* ==========================================================================
+   8. INITIALIZATION & EVENT LISTENERS
+   ========================================================================== */
+
+/**
+ * Main initialization function
+ * Called when DOM is fully loaded
+ */
+function initializeWebsite() {
+    console.log('Initializing Shades Website...');
+    
+    // Initialize core functionality
+    initMobileMenu();
+    initLazyLoading();
+    initSmoothScrolling();
+    initScrollAnimations();
+    initImageOptimization();
+    initScrollToTop();
+    initProductFiltering();
+    initFontLoading();
+    initContactForm();
+    
+    // Load non-critical resources
+    loadNonCriticalResources();
+    
+    // Initialize animations after resources are loaded
+    window.addEventListener('load', () => {
+        initWOWAnimations();
+    });
+    
+    console.log('Website initialization complete');
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', initializeWebsite);
+
+// Export functions for testing (if needed)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        initMobileMenu,
+        initLazyLoading,
+        initSmoothScrolling,
+        initScrollAnimations,
+        initImageOptimization,
+        initScrollToTop,
+        initProductFiltering,
+        initFontLoading,
+        initContactForm,
+        debounce,
+        throttle,
+        isInViewport
+    };
 }
