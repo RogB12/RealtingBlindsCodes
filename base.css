@@ -1,257 +1,392 @@
-/* Base Styles and Reset */
+/*!
+ * ShadesHub Base CSS
+ * ==================
+ * 
+ * This file contains the foundational styles for the ShadesHub website.
+ * It includes CSS reset, typography, layout utilities, navigation, and 
+ * responsive design patterns.
+ * 
+ * Organization:
+ * 1. CSS Custom Properties (Variables)
+ * 2. CSS Reset & Base Styles
+ * 3. Typography System
+ * 4. Layout Components
+ * 5. Navigation System
+ * 6. Utility Classes
+ * 7. Responsive Design
+ * 
+ * Author: ShadesHub Development Team
+ * Last Updated: 2025-01-26
+ * Version: 2.0
+ */
+
+/* ============================================================================
+   1. CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================================================ */
+
 :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --white: #ffffff;
+    /* Color Palette */
+    --primary-color: #2c3e50;      /* Dark blue-gray for headers and primary elements */
+    --secondary-color: #3498db;    /* Bright blue for links and accents */
+    --white: #ffffff;              /* Pure white for backgrounds */
+    
+    /* Shadow System */
     --shadow-color: rgba(0, 0, 0, 0.1);
-    --shadow-sm: 0 2px 4px var(--shadow-color);
-    --shadow-md: 0 4px 8px var(--shadow-color);
-    --shadow-lg: 0 8px 16px var(--shadow-color);
+    --shadow-sm: 0 2px 4px var(--shadow-color);   /* Small shadows for subtle depth */
+    --shadow-md: 0 4px 8px var(--shadow-color);   /* Medium shadows for cards */
+    --shadow-lg: 0 8px 16px var(--shadow-color);  /* Large shadows for modals */
+    
+    /* Spacing Scale */
+    --spacing-xs: 0.25rem;  /* 4px */
+    --spacing-sm: 0.5rem;   /* 8px */
+    --spacing-md: 1rem;     /* 16px */
+    --spacing-lg: 2rem;     /* 32px */
+    --spacing-xl: 3rem;     /* 48px */
+    
+    /* Breakpoints (for reference in media queries) */
+    --breakpoint-mobile: 767px;
+    --breakpoint-tablet: 768px;
+    --breakpoint-desktop: 1024px;
 }
 
+/* ============================================================================
+   2. CSS RESET & BASE STYLES
+   ============================================================================ */
+
+/* Modern CSS Reset - Normalize box model and remove default margins/padding */
 *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box;  /* Include padding and border in element width/height */
+    margin: 0;               /* Remove default margins */
+    padding: 0;              /* Remove default padding */
 }
 
+/* Base body styles with flex layout for sticky footer */
 body {
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
-    color: #333;
-    overflow-x: hidden;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;        /* Improved readability */
+    color: #333;             /* Dark gray text for good contrast */
+    overflow-x: hidden;      /* Prevent horizontal scroll */
+    min-height: 100vh;       /* Ensure full viewport height */
+    display: flex;           /* Flex layout for sticky footer */
+    flex-direction: column;  /* Stack elements vertically */
 }
 
-/* Typography */
+/* ============================================================================
+   3. TYPOGRAPHY SYSTEM
+   ============================================================================ */
+
+/* Heading styles with responsive sizing using clamp() */
 h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 1rem;
-    font-weight: 600;
-    line-height: 1.2;
+    margin-bottom: 1rem;     /* Consistent bottom spacing */
+    font-weight: 600;        /* Semi-bold for better hierarchy */
+    line-height: 1.2;        /* Tighter line height for headings */
+    color: var(--primary-color);
 }
 
-h1 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
-h2 { font-size: clamp(1.25rem, 4vw, 2rem); }
-h3 { font-size: clamp(1rem, 3vw, 1.5rem); }
+/* Responsive font sizes that scale with viewport */
+h1 { font-size: clamp(1.5rem, 5vw, 2.5rem); }  /* 24px to 40px */
+h2 { font-size: clamp(1.25rem, 4vw, 2rem); }   /* 20px to 32px */
+h3 { font-size: clamp(1rem, 3vw, 1.5rem); }    /* 16px to 24px */
 
+/* Paragraph styling for optimal readability */
 p {
-    margin-bottom: 1rem;
-    color: #333;
-    font-size: 1rem;
-    line-height: 1.6;
+    margin-bottom: 1rem;     /* Consistent vertical rhythm */
+    color: #333;             /* Slightly softer than pure black */
+    font-size: 1rem;         /* Base font size */
+    line-height: 1.6;        /* Optimal line height for reading */
 }
 
-/* Layout */
+/* ============================================================================
+   4. LAYOUT COMPONENTS
+   ============================================================================ */
+
+/* Container for centered content with max width */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    max-width: 1200px;       /* Maximum content width */
+    margin: 0 auto;          /* Center horizontally */
+    padding: 0 20px;         /* Horizontal padding for mobile */
 }
 
+/* Section spacing for consistent vertical rhythm */
 section {
-    padding: 3rem 0;
-    position: relative;
-    z-index: 1;
+    padding: 3rem 0;         /* Vertical padding */
+    position: relative;      /* For positioned child elements */
+    z-index: 1;              /* Base stacking context */
 }
 
-/* Buttons - Base styles */
+/* Button base styles - foundation for all button variants */
 .button {
-    display: inline-block;
-    padding: 12px 24px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    border: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: inline-block;           /* Inline but with block properties */
+    padding: 12px 24px;             /* Comfortable touch target */
+    border-radius: 5px;             /* Subtle rounded corners */
+    text-decoration: none;          /* Remove underline for button links */
+    font-weight: 600;               /* Semi-bold text */
+    text-align: center;             /* Center text */
+    cursor: pointer;                /* Pointer cursor on hover */
+    border: none;                   /* Remove default border */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;  /* Smooth interactions */
 }
 
-/* Header */
+/* ============================================================================
+   5. NAVIGATION SYSTEM
+   ============================================================================ */
+
+/* Main header with fixed positioning */
 .main-header {
-    height: 60px;
-    position: fixed;
+    height: 60px;                   /* Fixed header height */
+    position: fixed;                /* Stay at top during scroll */
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
-    background-color: #fff;
-    box-shadow: var(--shadow-sm);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    justify-content: space-between;
+    z-index: 1000;                  /* Above all other content */
+    background-color: #fff;         /* White background */
+    box-shadow: var(--shadow-sm);   /* Subtle shadow for depth */
+    display: flex;                  /* Flex layout for alignment */
+    align-items: center;            /* Center content vertically */
+    padding: 0 20px;                /* Horizontal padding */
+    justify-content: space-between; /* Space between logo and nav */
 }
 
+/* Header container styling */
 .main-header .container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex;                  /* Flex layout */
+    align-items: center;            /* Center vertically */
+    width: 100%;                    /* Full width */
+    max-width: 1200px;              /* Consistent max width */
+    margin: 0 auto;                 /* Center horizontally */
 }
 
-/* Logo */
+/* Logo styling */
 .logo {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1.25rem;
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 0;
-    white-space: nowrap;
+    color: var(--primary-color);    /* Brand color */
+    text-decoration: none;          /* Remove underline */
+    font-weight: 700;               /* Bold brand text */
+    font-size: 1.25rem;             /* Larger than body text */
+    display: inline-flex;           /* Flex for alignment */
+    align-items: center;            /* Center vertically */
+    padding: 0.5rem 0;              /* Vertical padding */
+    white-space: nowrap;            /* Prevent text wrapping */
 }
 
-/* Navigation Container */
+/* Navigation container */
 .main-nav {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-    height: 100%;
+    display: flex;                  /* Flex layout */
+    align-items: center;            /* Center vertically */
+    justify-content: flex-end;      /* Align to right */
+    width: 100%;                    /* Full width */
+    height: 100%;                   /* Full header height */
 }
 
-/* Navigation List */
+/* Navigation list - horizontal on desktop */
 .nav-list {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-    padding: 0;
-    margin: 0;
-    flex-wrap: nowrap;
-    align-items: center;
+    display: flex;                  /* Horizontal layout */
+    list-style: none;              /* Remove bullet points */
+    gap: 2rem;                      /* Space between items */
+    padding: 0;                     /* Remove default padding */
+    margin: 0;                      /* Remove default margin */
+    flex-wrap: nowrap;              /* Keep items on one line */
+    align-items: center;            /* Center items vertically */
 }
 
+/* Individual navigation items */
 .nav-list li {
-    position: relative;
-    display: inline-block;
+    position: relative;             /* For dropdown positioning */
+    display: inline-block;          /* Inline with block properties */
 }
 
+/* Navigation links */
 .nav-list li a {
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
-    padding: 0.5rem 1rem;
-    display: inline-flex;
-    align-items: center;
+    color: #333;                    /* Dark text */
+    text-decoration: none;          /* Remove underline */
+    font-weight: 500;               /* Medium weight */
+    transition: color 0.2s ease;    /* Smooth color transition */
+    padding: 0.5rem 1rem;           /* Comfortable touch target */
+    display: inline-flex;           /* Flex for alignment */
+    align-items: center;            /* Center text vertically */
 }
 
+/* Navigation link hover effect */
 .nav-list li a:hover {
-    color: var(--secondary-color);
+    color: var(--secondary-color);  /* Brand accent color */
 }
 
-/* Mobile Navigation Toggle */
+/* Mobile navigation toggle button - hidden by default */
 .mobile-nav-toggle {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    color: #333;
-    font-size: 1.5rem;
+    display: none;                  /* Hidden on desktop */
+    background: none;               /* No background */
+    border: none;                   /* No border */
+    cursor: pointer;                /* Pointer cursor */
+    padding: 0.5rem;                /* Comfortable touch target */
+    color: #333;                    /* Dark icon color */
+    font-size: 1.5rem;              /* Larger icon */
 }
 
-/* Desktop Navigation */
+/* ============================================================================
+   6. RESPONSIVE DESIGN - DESKTOP FIRST
+   ============================================================================ */
+
+/* Desktop navigation (768px and up) */
 @media (min-width: 768px) {
     .nav-list {
-        flex-direction: row;
+        flex-direction: row;         /* Horizontal layout */
     }
     
     .mobile-nav-toggle {
-        display: none;
+        display: none;              /* Hide mobile toggle */
     }
 }
 
-/* Mobile Navigation */
+/* Mobile navigation (767px and below) */
 @media (max-width: 767px) {
+    /* Header adjustments for mobile */
     .main-header {
-        justify-content: space-between;
+        justify-content: space-between;  /* Logo left, toggle right */
     }
     
+    /* Show mobile navigation toggle */
     .mobile-nav-toggle {
-        display: block;
+        display: block;                  /* Show on mobile */
     }
     
+    /* Mobile navigation menu */
     .nav-list {
-        display: none;
-        position: fixed;
-        top: 60px;
+        display: none;                   /* Hidden by default */
+        position: fixed;                 /* Fixed positioning */
+        top: 60px;                       /* Below header */
         left: 0;
         right: 0;
-        background: white;
-        padding: 1rem;
-        flex-direction: column;
-        gap: 1rem;
-        box-shadow: var(--shadow-md);
-        z-index: 999;
-        max-height: 50vh; /* Limit height to 50% of viewport */
-        overflow-y: auto; /* Add scroll if needed */
+        background: white;               /* White background */
+        padding: 1rem;                   /* Internal spacing */
+        flex-direction: column;          /* Vertical layout */
+        gap: 1rem;                       /* Space between items */
+        box-shadow: var(--shadow-md);    /* Shadow for depth */
+        z-index: 999;                    /* Above other content */
+        max-height: 50vh;                /* Limit height */
+        overflow-y: auto;                /* Scroll if needed */
     }
 
+    /* Show navigation when toggle is active */
     .nav-list[data-visible="true"] {
-        display: flex;
+        display: flex;                   /* Show menu */
     }
 
+    /* Mobile navigation links */
     .nav-list li a {
-        width: 100%;
-        text-align: center;
-        padding: 0.75rem 1rem;
+        width: 100%;                     /* Full width buttons */
+        text-align: center;              /* Center text */
+        padding: 0.75rem 1rem;           /* Larger touch targets */
     }
 }
 
-/* Container Padding for Mobile */
+/* Mobile body padding to account for fixed header */
 @media (max-width: 767px) {
     body {
-        padding-top: 60px;
+        padding-top: 60px;               /* Prevent content behind header */
     }
 }
 
-/* Utility Classes */
+/* ============================================================================
+   7. UTILITY CLASSES & COMPONENTS
+   ============================================================================ */
+
+/* Screen reader only text - accessibility helper */
 .visually-hidden {
-    position: absolute !important;
-    height: 1px;
-    width: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-    border: 0;
+    position: absolute !important;   /* Remove from document flow */
+    height: 1px;                     /* Minimal height */
+    width: 1px;                      /* Minimal width */
+    overflow: hidden;                /* Hide overflow */
+    clip: rect(0 0 0 0);            /* Clip to 1px box */
+    white-space: nowrap;             /* Prevent wrapping */
+    border: 0;                       /* Remove border */
 }
 
-/* Performance Optimization */
+/* Image optimization for performance */
 img {
-    display: block;
-    max-width: 100%;
-    height: auto;
+    display: block;                  /* Remove inline spacing */
+    max-width: 100%;                 /* Responsive images */
+    height: auto;                    /* Maintain aspect ratio */
 }
 
-/* Main Content */
+/* ============================================================================
+   8. BREADCRUMB NAVIGATION
+   ============================================================================ */
+
+/* Breadcrumb container */
+.breadcrumb-nav {
+    background-color: #f8f9fa;       /* Light gray background */
+    padding: 0.5rem 0;               /* Vertical padding */
+    border-bottom: 1px solid #e9ecef; /* Subtle border */
+}
+
+/* Breadcrumb list */
+.breadcrumb {
+    display: flex;                   /* Horizontal layout */
+    list-style: none;               /* Remove bullets */
+    margin: 0;                      /* Remove margin */
+    padding: 0;                     /* Remove padding */
+    font-size: 0.875rem;           /* Smaller text */
+}
+
+/* Breadcrumb items */
+.breadcrumb li {
+    color: #6c757d;                 /* Muted text color */
+}
+
+/* Breadcrumb separators */
+.breadcrumb li:not(:last-child)::after {
+    content: "›";                   /* Arrow separator */
+    margin: 0 0.5rem;               /* Spacing around separator */
+    color: #adb5bd;                 /* Even more muted */
+}
+
+/* Breadcrumb links */
+.breadcrumb a {
+    color: var(--secondary-color);  /* Brand color */
+    text-decoration: none;          /* Remove underline */
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;     /* Underline on hover */
+}
+
+/* Current page indicator */
+.breadcrumb li[aria-current="page"] {
+    color: #495057;                 /* Darker text */
+    font-weight: 500;               /* Medium weight */
+}
+
+/* ============================================================================
+   9. MAIN CONTENT LAYOUT
+   ============================================================================ */
+
+/* Main content area with flex grow for sticky footer */
 main {
-    flex: 1;
-    position: relative;
-    z-index: 1;
-    margin-top: 60px;
-    padding: 0;
+    flex: 1;                        /* Grow to fill available space */
+    position: relative;             /* For positioned children */
+    z-index: 1;                     /* Base stacking context */
+    margin-top: 60px;               /* Account for fixed header */
+    padding: 0;                     /* No default padding */
 }
 
-/* Products Page Layout */
+/* ============================================================================
+   10. SPECIALIZED LAYOUTS
+   ============================================================================ */
+
+/* Products page grid layout */
 .products-page .products-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0;
+    display: grid;                          /* CSS Grid layout */
+    grid-template-columns: repeat(3, 1fr);  /* 3 equal columns */
+    gap: 2rem;                              /* Space between items */
+    width: 100%;                            /* Full width */
+    max-width: 1200px;                      /* Consistent max width */
+    margin: 0 auto;                         /* Center grid */
+    padding: 0;                             /* No padding */
 }
 
-/* Mobile-specific adjustments for products page */
+/* Mobile products grid - single column */
 @media (max-width: 768px) {
     .products-page .products-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
+        grid-template-columns: 1fr;         /* Single column */
+        gap: 1rem;                          /* Smaller gap */
     }
 }
