@@ -2,34 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | Premium Window Coverings - shades</title>
     <meta name="description" content="Learn about shades's commitment to providing premium window coverings and exceptional service in Caledon, Brampton, and surrounding areas. Expert craftsmanship, quality materials, and personalized service since 2025.">
-    <meta name="keywords" content="about us, company history, window coverings, shades, Caledon shades, Brampton window coverings, custom window treatments, premium shades, window coverings services">
-    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="about us, company history, window coverings, blinds, Caledon blinds, Brampton window coverings, custom window treatments, premium blinds, window coverings services">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="author" content="shades">
     <meta name="coverage" content="Caledon, Brampton, Mississauga, Vaughan, Georgetown, Bolton, Milton, Erin, Oakville, Orangeville, Etobicoke, Toronto and surrounding areas">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.shades.ca/about.html">
+    <meta property="og:title" content="About Us | Premium Window Coverings - shades">
+    <meta property="og:description" content="Learn about shades's commitment to providing premium window coverings and exceptional service in Caledon, Brampton, and surrounding areas.">
+    <meta property="og:image" content="https://www.shades.ca/images/shades-logo.png">
+    <meta property="og:site_name" content="shades">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.shades.ca/about.html">
+    <meta property="twitter:title" content="About Us | Premium Window Coverings - shades">
+    <meta property="twitter:description" content="Learn about shades's commitment to providing premium window coverings and exceptional service in Caledon, Brampton, and surrounding areas.">
+    <meta property="twitter:image" content="https://www.shades.ca/images/shades-logo.png">
 
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
-    <!-- Preload critical fonts with font-display: swap -->
+    <!-- DNS Prefetch for performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    
+    <!-- Preload critical resources -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" href="script.js" as="script">
+    
+    <!-- Fallback for browsers that don't support the preload pattern -->
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"></noscript>
     
-    <!-- Load Font Awesome with font-display: swap -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    <!-- Load Font Awesome asynchronously -->
+    <script>
+        // Load Font Awesome and Animate.css asynchronously
+        function loadCSS(href) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            document.head.appendChild(link);
+        }
+        
+        // Load after page load
+        window.addEventListener('load', function() {
+            loadCSS('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+            loadCSS('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+        });
+    </script>
     
-    <!-- Load other stylesheets -->
-    <link rel="icon" type="image/webp" href="/images/favicon.webp">
-    <link rel="stylesheet" href="base.css">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="print" onload="this.media='all'">
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="base.css" media="print" onload="this.media='all'">
+    
+    <!-- Page-specific styles -->
+    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     
     <!-- Schema Markup -->
     <script type="application/ld+json">
@@ -55,9 +94,8 @@
     }
     </script>
 
-    <!-- Load scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" defer></script>
-    <script src="/script.js" defer></script>
+    <!-- Load JavaScript after DOM is ready -->
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header class="main-header">
@@ -66,7 +104,7 @@
             <nav class="main-nav">
                 <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
                     <span class="visually-hidden">Menu</span>
-                    <span>☰</span>
+                    <i class="fas fa-bars"></i>
                 </button>
                 <ul id="primary-navigation" data-visible="false" class="nav-list">
                     <li><a href="/index.html">Home</a></li>

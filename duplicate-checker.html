@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duplicate Code Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .check-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .results {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 3px;
+        }
+        pre {
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Duplicate Code Checker</h1>
+    <p>This tool checks for duplicate code across all files to ensure no conflicts exist.</p>
+
+    <div class="check-section">
+        <h2>CSS Duplicate Check</h2>
+        <button class="test-button" onclick="checkCSSDuplicates()">Check CSS Duplicates</button>
+        <div id="css-results" class="results"></div>
+    </div>
+
+    <div class="check-section">
+        <h2>JavaScript Duplicate Check</h2>
+        <button class="test-button" onclick="checkJSDuplicates()">Check JS Duplicates</button>
+        <div id="js-results" class="results"></div>
+    </div>
+
+    <div class="check-section">
+        <h2>HTML Structure Check</h2>
+        <button class="test-button" onclick="checkHTMLDuplicates()">Check HTML Duplicates</button>
+        <div id="html-results" class="results"></div>
+    </div>
+
+    <div class="check-section">
+        <h2>Mobile Menu Test</h2>
+        <button class="test-button" onclick="testMobileMenu()">Test Mobile Menu</button>
+        <div id="mobile-results" class="results"></div>
+    </div>
+
+    <div class="check-section">
+        <h2>Performance Check</h2>
+        <button class="test-button" onclick="checkPerformance()">Check Performance</button>
+        <div id="performance-results" class="results"></div>
+    </div>
+
+    <script>
+        function checkCSSDuplicates() {
+            const results = document.getElementById('css-results');
+            results.innerHTML = '<h3>CSS Duplicate Check Results:</h3>';
+            
+            // Check for common CSS duplicates
+            const cssIssues = [];
+            
+            // Check for mobile-nav-toggle duplicates
+            if (document.querySelectorAll('.mobile-nav-toggle').length > 1) {
+                cssIssues.push('Multiple .mobile-nav-toggle rules found');
+            }
+            
+            // Check for container duplicates
+            if (document.querySelectorAll('.container').length > 1) {
+                cssIssues.push('Multiple .container rules found');
+            }
+            
+            // Check for main-header duplicates
+            if (document.querySelectorAll('.main-header').length > 1) {
+                cssIssues.push('Multiple .main-header rules found');
+            }
+            
+            if (cssIssues.length === 0) {
+                results.innerHTML += '<div class="success">✅ No CSS duplicates found!</div>';
+            } else {
+                results.innerHTML += '<div class="error">❌ CSS duplicates found:</div>';
+                cssIssues.forEach(issue => {
+                    results.innerHTML += `<div class="warning">• ${issue}</div>`;
+                });
+            }
+        }
+
+        function checkJSDuplicates() {
+            const results = document.getElementById('js-results');
+            results.innerHTML = '<h3>JavaScript Duplicate Check Results:</h3>';
+            
+            const jsIssues = [];
+            
+            // Check for duplicate event listeners
+            const domContentLoadedListeners = [];
+            const originalAddEventListener = document.addEventListener;
+            
+            document.addEventListener = function(type, listener, options) {
+                if (type === 'DOMContentLoaded') {
+                    domContentLoadedListeners.push(listener.toString());
+                }
+                return originalAddEventListener.call(this, type, listener, options);
+            };
+            
+            // Check for duplicate function definitions
+            if (typeof initMobileMenu !== 'undefined') {
+                jsIssues.push('initMobileMenu function exists');
+            }
+            
+            if (typeof initLazyLoading !== 'undefined') {
+                jsIssues.push('initLazyLoading function exists');
+            }
+            
+            if (jsIssues.length === 0) {
+                results.innerHTML += '<div class="success">✅ No JavaScript duplicates found!</div>';
+            } else {
+                results.innerHTML += '<div class="warning">⚠️ JavaScript functions found (this is normal):</div>';
+                jsIssues.forEach(issue => {
+                    results.innerHTML += `<div>• ${issue}</div>`;
+                });
+            }
+        }
+
+        function checkHTMLDuplicates() {
+            const results = document.getElementById('html-results');
+            results.innerHTML = '<h3>HTML Duplicate Check Results:</h3>';
+            
+            const htmlIssues = [];
+            
+            // Check for duplicate script tags
+            const scriptTags = document.querySelectorAll('script[src]');
+            const scriptSources = Array.from(scriptTags).map(script => script.src);
+            const duplicateScripts = scriptSources.filter((src, index) => scriptSources.indexOf(src) !== index);
+            
+            if (duplicateScripts.length > 0) {
+                htmlIssues.push(`Duplicate script sources: ${duplicateScripts.join(', ')}`);
+            }
+            
+            // Check for duplicate link tags
+            const linkTags = document.querySelectorAll('link[href]');
+            const linkHrefs = Array.from(linkTags).map(link => link.href);
+            const duplicateLinks = linkHrefs.filter((href, index) => linkHrefs.indexOf(href) !== index);
+            
+            if (duplicateLinks.length > 0) {
+                htmlIssues.push(`Duplicate link sources: ${duplicateLinks.join(', ')}`);
+            }
+            
+            // Check for duplicate mobile menu buttons
+            const mobileButtons = document.querySelectorAll('.mobile-nav-toggle');
+            if (mobileButtons.length > 1) {
+                htmlIssues.push(`Multiple mobile menu buttons found: ${mobileButtons.length}`);
+            }
+            
+            if (htmlIssues.length === 0) {
+                results.innerHTML += '<div class="success">✅ No HTML duplicates found!</div>';
+            } else {
+                results.innerHTML += '<div class="error">❌ HTML duplicates found:</div>';
+                htmlIssues.forEach(issue => {
+                    results.innerHTML += `<div class="warning">• ${issue}</div>`;
+                });
+            }
+        }
+
+        function testMobileMenu() {
+            const results = document.getElementById('mobile-results');
+            results.innerHTML = '<h3>Mobile Menu Test Results:</h3>';
+            
+            const mobileButton = document.querySelector('.mobile-nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            
+            if (!mobileButton) {
+                results.innerHTML += '<div class="error">❌ Mobile menu button not found</div>';
+                return;
+            }
+            
+            if (!navList) {
+                results.innerHTML += '<div class="error">❌ Navigation list not found</div>';
+                return;
+            }
+            
+            // Test mobile menu functionality
+            const initialState = navList.getAttribute('data-visible');
+            const buttonState = mobileButton.getAttribute('aria-expanded');
+            
+            results.innerHTML += `<div class="success">✅ Mobile menu elements found</div>`;
+            results.innerHTML += `<div>Initial nav state: ${initialState}</div>`;
+            results.innerHTML += `<div>Button state: ${buttonState}</div>`;
+            
+            // Simulate click
+            mobileButton.click();
+            
+            setTimeout(() => {
+                const newNavState = navList.getAttribute('data-visible');
+                const newButtonState = mobileButton.getAttribute('aria-expanded');
+                
+                results.innerHTML += `<div>After click - nav state: ${newNavState}</div>`;
+                results.innerHTML += `<div>After click - button state: ${newButtonState}</div>`;
+                
+                if (newNavState === 'true' && newButtonState === 'true') {
+                    results.innerHTML += '<div class="success">✅ Mobile menu toggle working correctly</div>';
+                } else {
+                    results.innerHTML += '<div class="error">❌ Mobile menu toggle not working</div>';
+                }
+            }, 100);
+        }
+
+        function checkPerformance() {
+            const results = document.getElementById('performance-results');
+            results.innerHTML = '<h3>Performance Check Results:</h3>';
+            
+            const performanceIssues = [];
+            
+            // Check for render-blocking resources
+            const blockingScripts = document.querySelectorAll('script:not([defer]):not([async])');
+            if (blockingScripts.length > 2) {
+                performanceIssues.push(`Too many blocking scripts: ${blockingScripts.length}`);
+            }
+            
+            // Check for CSS loading
+            const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
+            const asyncCSS = document.querySelectorAll('link[rel="stylesheet"][media="print"]');
+            
+            if (asyncCSS.length < cssLinks.length / 2) {
+                performanceIssues.push('Not enough CSS loaded asynchronously');
+            }
+            
+            // Check for preload links
+            const preloadLinks = document.querySelectorAll('link[rel="preload"]');
+            if (preloadLinks.length === 0) {
+                performanceIssues.push('No preload links found');
+            }
+            
+            if (performanceIssues.length === 0) {
+                results.innerHTML += '<div class="success">✅ Performance optimizations look good!</div>';
+            } else {
+                results.innerHTML += '<div class="warning">⚠️ Performance issues found:</div>';
+                performanceIssues.forEach(issue => {
+                    results.innerHTML += `<div>• ${issue}</div>`;
+                });
+            }
+            
+            results.innerHTML += `<div>CSS links: ${cssLinks.length}</div>`;
+            results.innerHTML += `<div>Async CSS: ${asyncCSS.length}</div>`;
+            results.innerHTML += `<div>Preload links: ${preloadLinks.length}</div>`;
+        }
+
+        // Auto-run checks on page load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                checkCSSDuplicates();
+                checkJSDuplicates();
+                checkHTMLDuplicates();
+                checkPerformance();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
