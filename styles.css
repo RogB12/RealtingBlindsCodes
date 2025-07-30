@@ -1,3 +1,226 @@
+/*!
+ * ShadesHub Styles CSS
+ * ====================
+ * 
+ * This file contains the main styling for the ShadesHub website.
+ * It complements base.css with page-specific styles, components,
+ * and enhanced visual features.
+ * 
+ * Organization:
+ * 1. CSS Variables & Theme System
+ * 2. Typography Extensions
+ * 3. Layout Components & Grids
+ * 4. UI Components & Buttons
+ * 5. Page-Specific Styles
+ * 6. Animation & Transitions
+ * 7. Responsive Design Overrides
+ * 8. Utility Classes
+ * 
+ * Dependencies:
+ * - base.css (foundational styles)
+ * - Font Awesome (icons)
+ * - Poppins font family
+ * 
+ * Browser Support: Modern browsers (CSS Grid, Flexbox, Custom Properties)
+ * 
+ * Author: ShadesHub Development Team
+ * Last Updated: 2025-01-26
+ * Version: 2.0
+ */
+
+/* ============================================================================
+   1. CSS VARIABLES & THEME SYSTEM
+   ============================================================================ */
+
+/* Extended color palette and design tokens */
+:root {
+    /* Core Brand Colors */
+    --primary-color: #2c3e50;      /* Dark blue-gray for headers */
+    --secondary-color: #3498db;    /* Bright blue for accents */
+    --white: #ffffff;              /* Pure white */
+    
+    /* Extended Color Palette */
+    --gray-50: #f8f9fa;
+    --gray-100: #e9ecef;
+    --gray-200: #dee2e6;
+    --gray-300: #ced4da;
+    --gray-400: #adb5bd;
+    --gray-500: #6c757d;
+    --gray-600: #495057;
+    --gray-700: #343a40;
+    --gray-800: #212529;
+    --gray-900: #000000;
+    
+    /* Status Colors */
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --error-color: #dc3545;
+    --info-color: #17a2b8;
+    
+    /* Enhanced Shadow System */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);   /* Subtle shadows */
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);   /* Standard shadows */
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);  /* Prominent shadows */
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15); /* Hero/modal shadows */
+    
+    /* Spacing Scale */
+    --space-xs: 0.25rem;    /* 4px */
+    --space-sm: 0.5rem;     /* 8px */
+    --space-md: 1rem;       /* 16px */
+    --space-lg: 1.5rem;     /* 24px */
+    --space-xl: 2rem;       /* 32px */
+    --space-2xl: 3rem;      /* 48px */
+    --space-3xl: 4rem;      /* 64px */
+    
+    /* Border Radius Scale */
+    --radius-sm: 0.25rem;   /* 4px */
+    --radius-md: 0.5rem;    /* 8px */
+    --radius-lg: 1rem;      /* 16px */
+    --radius-xl: 1.5rem;    /* 24px */
+    --radius-full: 9999px;  /* Circular */
+    
+    /* Animation Timing */
+    --duration-fast: 0.15s;
+    --duration-normal: 0.3s;
+    --duration-slow: 0.5s;
+    --easing-standard: ease-out;
+    --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ============================================================================
+   2. ENHANCED TYPOGRAPHY SYSTEM
+   ============================================================================ */
+
+/* Typography improvements and extensions beyond base.css */
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: var(--space-md);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--primary-color);
+}
+
+/* Responsive typography with better scaling */
+h1 { 
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+h2 { 
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+h3 { 
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-weight: 600;
+}
+
+h4 { 
+    font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+    font-weight: 500;
+}
+
+/* Enhanced paragraph styling */
+p {
+    margin-bottom: var(--space-md);
+    color: var(--gray-700);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Lead text for important paragraphs */
+.lead {
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--gray-600);
+}
+
+/* Small text */
+.text-small {
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* Text color utilities */
+.text-primary { color: var(--primary-color); }
+.text-secondary { color: var(--secondary-color); }
+.text-muted { color: var(--gray-500); }
+.text-success { color: var(--success-color); }
+.text-warning { color: var(--warning-color); }
+.text-error { color: var(--error-color); }
+
+/* ============================================================================
+   3. ENHANCED LAYOUT COMPONENTS
+   ============================================================================ */
+
+/* Container improvements beyond base.css */
+.container {
+    max-width: 1400px;               /* Wider than base for more content */
+    margin: 0 auto;
+    padding: 0 var(--space-xl);      /* Responsive padding */
+}
+
+/* Container variants */
+.container-narrow {
+    max-width: 800px;
+}
+
+.container-wide {
+    max-width: 1600px;
+}
+
+/* Section spacing improvements */
+section {
+    padding: var(--space-3xl) 0;    /* Consistent vertical rhythm */
+    position: relative;
+}
+
+.section-sm {
+    padding: var(--space-2xl) 0;
+}
+
+.section-lg {
+    padding: calc(var(--space-3xl) * 1.5) 0;
+}
+
+/* Grid system for flexible layouts */
+.grid {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 768px) {
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 /* Basic Reset and General Styles */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -10,46 +233,6 @@ body {
     line-height: 1.6;
     color: #333;
     overflow-x: hidden;
-}
-
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 30px;
-}
-
-/* Color Variables */
-:root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --white: #ffffff;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 1rem;
-    font-weight: 600;
-    line-height: 1.2;
-}
-
-h1 { font-size: 2.5rem; }
-@media (max-width: 768px) { h1 { font-size: 2rem; } }
-
-h2 { font-size: 2rem; }
-@media (max-width: 768px) { h2 { font-size: 1.75rem; } }
-
-h3 { font-size: 1.5rem; }
-@media (max-width: 768px) { h3 { font-size: 1.25rem; } }
-
-p {
-    margin-bottom: 1rem;
-    color: #333;
-    font-size: 1rem;
-    line-height: 1.6;
 }
 
 /* Buttons */

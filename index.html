@@ -1,8 +1,42 @@
+<!--
+==============================================================================
+ShadesHub - Homepage (index.html)
+==============================================================================
+
+This is the main homepage for ShadesHub, a premium window coverings company
+serving Caledon, Brampton, Mississauga, Vaughan, and surrounding areas.
+
+Page Structure:
+1. HTML Head - Meta tags, SEO, and resource loading
+2. Header - Navigation and branding
+3. Hero Section - Main call-to-action and value proposition
+4. Products Preview - Featured window covering solutions
+5. Footer - Contact information and additional links
+
+Features:
+- Responsive design (mobile-first approach)
+- SEO optimized with structured data
+- Performance optimized with lazy loading
+- Accessibility compliant (ARIA labels, semantic HTML)
+- Progressive enhancement for JavaScript features
+
+Author: ShadesHub Development Team
+Last Updated: 2025-01-26
+Version: 2.0
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ========================================================================
+         CHARACTER ENCODING AND VIEWPORT
+         ======================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    
+    <!-- ========================================================================
+         PRIMARY SEO META TAGS
+         ======================================================================== -->
     <title>Premium Custom Window Coverings in Caledon & Brampton | ShadesHub</title>
     <meta name="description" content="Transform your home with premium custom window coverings from ShadesHub. Serving Caledon, Brampton, Mississauga & Vaughan with expert installation of blinds, shades, shutters & drapes. Free consultation!">
     <meta name="keywords" content="custom window coverings, blinds, shades, shutters, window treatments, Caledon, Brampton, Mississauga, Vaughan, motorized blinds, smart window coverings, energy efficient, professional installation">
@@ -10,10 +44,14 @@
     <meta name="author" content="ShadesHub">
     <meta name="copyright" content="ShadesHub 2025">
     
-    <!-- Canonical URL -->
+    <!-- ========================================================================
+         CANONICAL URL AND DUPLICATE CONTENT PREVENTION
+         ======================================================================== -->
     <link rel="canonical" href="https://www.shadeshub.ca/">
     
-    <!-- Open Graph Meta Tags -->
+    <!-- ========================================================================
+         OPEN GRAPH META TAGS (Facebook, LinkedIn, etc.)
+         ======================================================================== -->
     <meta property="og:title" content="Premium Custom Window Coverings in Caledon & Brampton | ShadesHub">
     <meta property="og:description" content="Transform your home with premium custom window coverings from ShadesHub. Expert installation of blinds, shades, shutters & drapes.">
     <meta property="og:type" content="website">
@@ -22,38 +60,78 @@
     <meta property="og:site_name" content="ShadesHub">
     <meta property="og:locale" content="en_CA">
     
-    <!-- Twitter Card Meta Tags -->
+    <!-- ========================================================================
+         TWITTER CARD META TAGS
+         ======================================================================== -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Premium Custom Window Coverings in Caledon & Brampton | ShadesHub">
     <meta name="twitter:description" content="Transform your home with premium custom window coverings from ShadesHub. Expert installation of blinds, shades, shutters & drapes.">
     <meta name="twitter:image" content="https://www.shadeshub.ca/images/hero-image.webp">
+    
+    <!-- ========================================================================
+         ADDITIONAL META INFORMATION
+         ======================================================================== -->
     <meta name="language" content="English">
-    <meta name="designer" content="shades Design Team">
+    <meta name="designer" content="ShadesHub Design Team">
     <meta name="coverage" content="Caledon, Brampton, Mississauga, Vaughan, Georgetown, Bolton, Milton, Erin, Oakville, Orangeville, Etobicoke, Toronto and surrounding areas">
     
-    <!-- Cache Control -->
+    <!-- ========================================================================
+         BROWSER CACHING OPTIMIZATION
+         ======================================================================== -->
     <meta http-equiv="Cache-Control" content="max-age=31536000, public">
     <meta http-equiv="Expires" content="Thu, 01 Jan 2026 00:00:00 GMT">
     
-    <!-- Preconnect to external domains -->
+    <!-- ========================================================================
+         EXTERNAL DOMAIN PRECONNECTIONS (Performance Optimization)
+         ======================================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://img1.wsimg.com">
     <link rel="preconnect" href="https://csp.secureserver.net">
     
-    <!-- Preload critical resources with proper attributes -->
+    <!-- ========================================================================
+         CRITICAL RESOURCE PRELOADING
+         ======================================================================== -->
+    <!-- Preload fonts with fallback for non-supporting browsers -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
     <link rel="preload" href="/script.js" as="script" type="text/javascript">
     
-    <!-- Fallback for browsers that don't support the preload pattern -->
+    <!-- Font loading fallback for browsers without preload support -->
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"></noscript>
     
-    <!-- Critical CSS -->
+    <!-- ========================================================================
+         ICON LIBRARIES (Performance Optimized)
+         ======================================================================== -->
+    <!-- Load Font Awesome with preload for better performance -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <!-- ========================================================================
+         CRITICAL CSS PRELOADING
+         ======================================================================== -->
+    <!-- Preload critical CSS files for better performance -->
+    <link rel="preload" href="/base.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Load critical CSS files -->
+    <link rel="stylesheet" href="/base.css">
+    <link rel="stylesheet" href="/styles.css">
+    
+    <!-- ========================================================================
+         CRITICAL ABOVE-THE-FOLD CSS
+         ======================================================================== -->
     <style>
-        /* Critical Above-the-fold CSS */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        /* Critical CSS for immediate render - prevents FOUC (Flash of Unstyled Content) */
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+        
+        /* Base font stack with system fonts as fallback */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
             line-height: 1.6; 
@@ -61,11 +139,13 @@
             background-color: #f8f8f8; 
             overflow-x: hidden;
         }
+        
+        /* Switch to custom font when loaded */
         .fonts-loaded body {
             font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
         }
         
-        /* Header */
+        /* Header positioning and basic mobile navigation */
         .main-header {
             padding: 15px 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -77,13 +157,14 @@
             height: 60px;
         }
         
-        /* Mobile Navigation */
+        /* Mobile navigation toggle - hidden by default */
         .mobile-nav-toggle {
             display: none;
             background: none;
             border: none;
         }
         
+        /* Show mobile toggle on small screens */
         @media (max-width: 768px) {
             .mobile-nav-toggle {
                 display: block;
@@ -91,23 +172,33 @@
         }
     </style>
     
-    <!-- Load Font Awesome with preload for performance -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    <!-- ========================================================================
+         FAVICON AND TOUCH ICONS
+         ======================================================================== -->
+    <link rel="icon" type="image/png" href="images/favicon.png" width="32" height="32">
+
+    <!-- ========================================================================
+         LOADING STATES AND PERFORMANCE CSS
+         ======================================================================== -->
+    <style>
+        /* Loading states for progressive enhancement */
+        .loading { 
+            opacity: 0; 
+            transition: opacity 0.3s ease; 
+        }
+        .loaded { 
+            opacity: 1; 
+        }
+        
+        /* Optimize Cumulative Layout Shift (CLS) */
+        img { 
+            aspect-ratio: attr(width) / attr(height); 
+        }
+    </style>
     
-    <!-- Preload critical CSS -->
-    <link rel="preload" href="/base.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    
-    <!-- Base CSS -->
-    <link rel="stylesheet" href="/base.css">
-    
-    <!-- Page-specific styles -->
-    <link rel="stylesheet" href="/styles.css">
-    
-    
-    <!-- Schema Markup -->
+    <!-- ========================================================================
+         STRUCTURED DATA (JSON-LD) FOR SEO
+         ======================================================================== -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -172,43 +263,47 @@
     }
     </script>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon.png" width="32" height="32">
-
-    <!-- Loading indicator -->
-    <style>
-        .loading { opacity: 0; transition: opacity 0.3s ease; }
-        .loaded { opacity: 1; }
-        /* Optimize CLS (Cumulative Layout Shift) */
-        img { aspect-ratio: attr(width) / attr(height); }
-    </style>
-    
-    <!-- Initialize components -->
+    <!-- ========================================================================
+         COMPONENT INITIALIZATION SCRIPT
+         ======================================================================== -->
     <script>
+        // Initialize critical components immediately
         document.addEventListener('DOMContentLoaded', function() {
-            // Remove loading class
-            document.body.classList.remove('loading');
+            // Mark document as ready for enhanced features
+            document.documentElement.classList.add('dom-ready');
             
-            // Initialize all page components through the centralized function
-            if (typeof initPage === 'function') {
-                initPage();
-            } else {
-                console.error('initPage function not found. Make sure script.js is loaded correctly.');
-            }
+            // Initialize loading states
+            const loadingElements = document.querySelectorAll('.loading');
+            loadingElements.forEach(el => {
+                el.classList.add('loaded');
+            });
         });
     </script>
 </head>
+
 <body>
-    <header class="main-header">
+    <!-- ========================================================================
+         MAIN HEADER AND NAVIGATION
+         ======================================================================== -->
+    <header class="main-header" role="banner">
         <div class="container">
-            <a href="/" class="logo">ShadesHub</a>
-            <nav class="main-nav">
-                <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+            <!-- Company Logo/Brand -->
+            <a href="/" class="logo" aria-label="ShadesHub Homepage">ShadesHub</a>
+            
+            <!-- Primary Navigation -->
+            <nav class="main-nav" role="navigation" aria-label="Main navigation">
+                <!-- Mobile Navigation Toggle Button -->
+                <button class="mobile-nav-toggle" 
+                        aria-controls="primary-navigation" 
+                        aria-expanded="false"
+                        aria-label="Toggle mobile navigation menu">
                     <span class="visually-hidden">Menu</span>
-                    <i class="fas fa-bars"></i>
+                    <i class="fas fa-bars" aria-hidden="true"></i>
                 </button>
+                
+                <!-- Navigation Menu -->
                 <ul id="primary-navigation" data-visible="false" class="nav-list">
-                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/index.html" aria-current="page">Home</a></li>
                     <li><a href="/products.html">Products</a></li>
                     <li><a href="/services.html">Services</a></li>
                     <li><a href="/about.html">About Us</a></li>
@@ -219,23 +314,38 @@
         </div>
     </header>
 
-    <main>
-        <section class="hero">
+    <!-- ========================================================================
+         MAIN CONTENT AREA
+         ======================================================================== -->
+    <main role="main">
+        <!-- ====================================================================
+             HERO SECTION - Primary Value Proposition
+             ==================================================================== -->
+        <section class="hero" aria-labelledby="hero-title">
             <div class="container">
+                <!-- Hero Content - Left Side -->
                 <div class="hero-content">
-                    <h1 class="hero-title">Transform Your Windows with Premium Custom Coverings</h1>
-                    <p class="hero-description">Since 2005, shades has been providing exceptional window solutions to homeowners in Caledon, Brampton, and surrounding areas. Our expert team offers:</p>
-                    <div class="hero-features">
-                        <div class="feature-item">Custom measurements and installation</div>
-                        <div class="feature-item">Wide range of styles and materials</div>
-                        <div class="feature-item">Energy-efficient solutions</div>
-                        <div class="feature-item">In-home consultation</div>
-                    </div>
+                    <h1 id="hero-title" class="hero-title">
+                        Transform Your Windows with Premium Custom Coverings
+                    </h1>
+                    <p class="hero-description">
+                        Discover our extensive collection of custom blinds, shades, and shutters. 
+                        Professional installation and free consultations across Caledon, Brampton, 
+                        Mississauga, Vaughan, and surrounding areas.
+                    </p>
+                    
+                    <!-- Call-to-Action Buttons -->
                     <div class="hero-buttons">
-                        <a href="/contact" class="button primary-button">Schedule Consultation</a>
-                        <a href="/products" class="button secondary-button">View Our Products</a>
+                        <a href="/contact" class="button primary-button" aria-label="Schedule a free consultation">
+                            Schedule Consultation
+                        </a>
+                        <a href="/products" class="button secondary-button" aria-label="Browse our product catalog">
+                            View Our Products
+                        </a>
                     </div>
                 </div>
+                
+                <!-- Hero Image - Right Side -->
                 <div class="hero-image">
                     <img src="images/hero-shades.webp" 
                          alt="Premium Custom shades in Modern Home Interior" 
@@ -248,23 +358,42 @@
             </div>
         </section>
 
-        <section class="home-products-section">
+        <!-- ====================================================================
+             PRODUCTS PREVIEW SECTION - Featured Solutions
+             ==================================================================== -->
+        <section class="home-products-section" aria-labelledby="products-title">
             <div class="container">
-                <h2 class="section-title">Our Premium Window Covering Solutions</h2>
-                <p class="section-description">Discover our wide range of window covering options designed to enhance your home's beauty and functionality.</p>
+                <!-- Section Header -->
+                <h2 id="products-title" class="section-title">
+                    Our Premium Window Covering Solutions
+                </h2>
+                <p class="section-description">
+                    Discover our wide range of window covering options designed to enhance 
+                    your home's beauty and functionality.
+                </p>
+                
+                <!-- Product Grid -->
                 <div class="product-grid">
-                    <div class="product-item">
+                    <!-- Product 1: Zebra/Dual Blinds -->
+                    <article class="product-item">
                         <img src="images/zebra-dual-shades-shades.webp" 
                              alt="Zebra/Dual shades - Premium Window Covering" 
                              loading="lazy" 
                              width="300" 
                              height="200" 
                              decoding="async">
-                        <h3>Zebra/Dual shades</h3>
-                        <p>Perfect for modern homes, our zebra shades offer both natural light and privacy with their unique alternating sheer and opaque fabric strips.</p>
-                        <a href="/products.html" class="button secondary-button">View Details</a>
-                    </div>
-                    <div class="product-item">
+                        <h3>Zebra/Dual Blinds</h3>
+                        <p>
+                            Perfect for modern homes, our zebra shades offer both natural light 
+                            and privacy with their unique alternating sheer and opaque fabric strips.
+                        </p>
+                        <a href="/products.html" class="button secondary-button" aria-label="View Zebra/Dual Blinds details">
+                            View Details
+                        </a>
+                    </article>
+                    
+                    <!-- Product 2: Roller/Solar Shades -->
+                    <article class="product-item">
                         <img src="images/roller-shades-image.webp" 
                              alt="Roller/Solar Shades - Energy Efficient Window Solution" 
                              loading="lazy" 
@@ -272,10 +401,17 @@
                              height="200" 
                              decoding="async">
                         <h3>Roller/Solar Shades</h3>
-                        <p>Our solar shades provide excellent UV protection while maintaining visibility. Ideal for large windows and patios.</p>
-                        <a href="/products.html" class="button secondary-button">View Details</a>
-                    </div>
-                    <div class="product-item">
+                        <p>
+                            Our solar shades provide excellent UV protection while maintaining visibility. 
+                            Ideal for large windows and patios.
+                        </p>
+                        <a href="/products.html" class="button secondary-button" aria-label="View Roller/Solar Shades details">
+                            View Details
+                        </a>
+                    </article>
+                    
+                    <!-- Product 3: California Shutters -->
+                    <article class="product-item">
                         <img src="images/california-shutters.webp" 
                              alt="California Shutters - Custom Window Coverings" 
                              loading="lazy" 
@@ -283,68 +419,66 @@
                              height="200" 
                              decoding="async">
                         <h3>California Shutters</h3>
-                        <p>Handcrafted from premium materials, our shutters offer unmatched durability and energy efficiency.</p>
-                        <a href="/products.html" class="button secondary-button">View Details</a>
-                    </div>
-                </div>
-                <div class="product-cta">
-                    <a href="/products.html" class="button primary-button">Explore Complete Collection</a>
-                    <p class="product-note">All products come with our satisfaction guarantee and professional installation service.</p>
+                        <p>
+                            Timeless elegance meets functionality. Our custom California shutters 
+                            add value and style to any home.
+                        </p>
+                        <a href="/products.html" class="button secondary-button" aria-label="View California Shutters details">
+                            View Details
+                        </a>
+                    </article>
                 </div>
             </div>
         </section>
-
-        <section class="home-services-section">
-            <div class="container">
-                <h2 class="section-title">Our Services</h2>
-                <p class="section-description">
-                    We offer a full range of services to help you with your window covering needs. Learn more about our services.
-                </p>
-                <ul class="services-list">
-                    <li>Precise Measurements</li>
-                    <li>Professional Installation</li>
-                    <li><a href="/services.html" class="service-link">View All Services</a></li>
-                </ul>
-            </div>
-        </section>
-
-        
     </main>
 
-    <footer class="main-footer">
+    <!-- ========================================================================
+         FOOTER - Contact Information and Links
+         ======================================================================== -->
+    <footer class="main-footer" role="contentinfo">
         <div class="container">
             <div class="footer-content">
+                <!-- Company Information -->
                 <div class="footer-section">
-                    <h3>shades </h3>
-                    <p>Your trusted window covering specialist since 2025</p>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/profile.php?id=100071569563884" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/shadesteam/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.linkedin.com/company/107995092" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    </div>
+                    <h3>ShadesHub</h3>
+                    <p>Premium window coverings for your home and business.</p>
                 </div>
+                
+                <!-- Contact Information -->
                 <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <div class="footer-links">
-                        <a href="/products.html">Products</a>
-                        <a href="/services.html">Services</a>
-                        <a href="/contact.html">Contact</a>
-                        <a href="/about.html">About Us</a>
-                    </div>
+                    <h4>Contact Info</h4>
+                    <address>
+                        <p>Serving Caledon, Brampton, Mississauga, Vaughan and surrounding areas</p>
+                        <p>Email: <a href="mailto:info@shadeshub.ca">info@shadeshub.ca</a></p>
+                        <p>Phone: <a href="tel:+1234567890">(123) 456-7890</a></p>
+                    </address>
                 </div>
+                
+                <!-- Quick Links -->
                 <div class="footer-section">
-                    <h3>Contact Info</h3>
-                   
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/products.html">Products</a></li>
+                        <li><a href="/services.html">Services</a></li>
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                    </ul>
+                </div>
             </div>
+            
+            <!-- Copyright Information -->
             <div class="footer-bottom">
-                <p>&copy; 2025 shades. All rights reserved.</p>
+                <p>&copy; 2025 ShadesHub. All rights reserved.</p>
                 <p>Proudly serving Caledon, Brampton, Mississauga, Vaughan, Erin, Orangeville, Milton, Georgetown, Oakville, Etobicoke, Toronto, GTA and surrounding areas.</p>
             </div>
         </div>
     </footer>
 
+    <!-- ========================================================================
+         NON-CRITICAL RESOURCE LOADING
+         ======================================================================== -->
     <!-- Removed duplicate CSS loading - already handled in head section -->
-    <!-- Load Animate.css asynchronously -->
+    <!-- Load Animate.css asynchronously for performance -->
     <script>
         window.addEventListener('load', function() {
             var link = document.createElement('link');
@@ -354,7 +488,9 @@
         });
     </script>
     
-    <!-- Load JavaScript after DOM is ready -->
+    <!-- ========================================================================
+         MAIN JAVASCRIPT - Loaded After DOM Ready
+         ======================================================================== -->
     <script src="/script.js" defer></script>
 </body>
 </html>
