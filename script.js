@@ -357,17 +357,9 @@ function loadNonCriticalJS() {
 function initPage() {
     console.log('Initializing page components...');
     
-    // Initialize mobile menu if elements exist
-    if (document.querySelector('.mobile-nav-toggle') && 
-        document.querySelector('.main-nav') && 
-        document.querySelector('.nav-list')) {
-        initMobileMenu();
-    }
+    // Mobile menu initialization is handled in the main DOMContentLoaded event above
     
-    // Initialize other common components
-    if (typeof initScrollToTop === 'function') initScrollToTop();
-    if (typeof initImageOptimization === 'function') initImageOptimization();
-    if (typeof initLazyLoading === 'function') initLazyLoading();
+    // Initialize page-specific components that weren't loaded in main DOMContentLoaded
     if (typeof initProductFiltering === 'function') initProductFiltering();
     if (typeof initFontLoading === 'function') initFontLoading();
     
